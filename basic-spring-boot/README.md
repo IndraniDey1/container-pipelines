@@ -112,21 +112,33 @@ This template should be instantiated once in each of the namespaces that our app
 Deploy the deployment template to all three projects.
 ```
 $ oc process -f .openshift/templates/deployment.yml -p=APPLICATION_NAME=basic-spring-boot
- -p NAMESPACE=basic-spring-boot-dev -p=SA_NAMESPACE=basic-spring-boot-build -p=READINESS_PATH="/health" -p=READINESS_RESPONSE="status.:.UP" -p | oc apply -f-
+ -p NAMESPACE=basic-spring-boot-dev -p=SA_NAMESPACE=basic-spring-boot-build -p=READINESS_PATH="/health" -p=READINESS_RESPONSE="status.:.UP" 
+
+Copy the out put and save it in dev-deployment.json file
+$ oc apply -f dev-deployment.json
 service "spring-rest" created
 route "spring-rest" created
 imagestream "spring-rest" created
 deploymentconfig "spring-rest" created
 rolebinding "jenkins_edit" configured
 $ oc process -f .openshift/templates/deployment.yml -p=APPLICATION_NAME=basic-spring-boot
- -p NAMESPACE=basic-spring-boot-stage -p=SA_NAMESPACE=basic-spring-boot-build -p=READINESS_PATH="/health" -p=READINESS_RESPONSE="status.:.UP" -p | oc apply -f-
+ -p NAMESPACE=basic-spring-boot-stage -p=SA_NAMESPACE=basic-spring-boot-build -p=READINESS_PATH="/health" -p=READINESS_RESPONSE="status.:.UP" 
+ 
+ Copy the out put and save it in stage-deployment.json file
+$ oc apply -f stage-deployment.json
+ 
 service "spring-rest" created
 route "spring-rest" created
 imagestream "spring-rest" created
 deploymentconfig "spring-rest" created
 rolebinding "jenkins_edit" created
+
 $ oc process -f .openshift/templates/deployment.yml -p=APPLICATION_NAME=basic-spring-boot
- -p NAMESPACE=basic-spring-boot-prod -p=SA_NAMESPACE=basic-spring-boot-build -p=READINESS_PATH="/health" -p=READINESS_RESPONSE="status.:.UP" -p | oc apply -f-
+ -p NAMESPACE=basic-spring-boot-prod -p=SA_NAMESPACE=basic-spring-boot-build -p=READINESS_PATH="/health" -p=READINESS_RESPONSE="status.:.UP" 
+ 
+Copy the out put and save it in prod-deployment.json file
+$ oc apply -f prod-deployment.json
+ 
 service "spring-rest" created
 route "spring-rest" created
 imagestream "spring-rest" created
@@ -141,8 +153,8 @@ A _build template_ is provided at `applier/templates/build.yml` that defines all
 
 Deploy the pipeline template in build only.
 ```
-$ oc process -f applier/templates/build.yml -p=APPLICATION_NAME=basic-spring-boot
- -p NAMESPACE=basic-spring-boot-dev -p=SOURCE_REPOSITORY_URL="https://github.com/redhat-cop/container-pipelines.git" -p=APPLICATION_SOURCE_REPO="https://github.com/redhat-cop/spring-rest.git" | oc apply -f-
+$ oc process -f .openshift/templates/build.yml -p=APPLICATION_NAME=basic-spring-boot
+ -p NAMESPACE=basic-spring-boot-build -p=SOURCE_REPOSITORY_URL="https://github.com/redhat-cop/container-pipelines.git" -p=APPLICATION_SOURCE_REPO="https://github.com/redhat-cop/spring-rest.git" | oc apply -f-
 buildconfig "spring-rest-pipeline" created
 buildconfig "spring-rest" created
 ```
